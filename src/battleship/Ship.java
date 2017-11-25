@@ -9,13 +9,13 @@ package battleship;
  *
  * @author gstev
  */
-public class ShipInfo
+public class Ship
 {
 	private String shipName;
 	private int[] shipPieces; 
 	char Direction;
 		
-	ShipInfo(String name, int[] pieces,char Direction)
+	Ship(String name, int[] pieces, char Direction)
 	{
 		this.Direction = Direction;
 		this.shipName = name;

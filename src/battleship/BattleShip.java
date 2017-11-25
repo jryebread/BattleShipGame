@@ -28,7 +28,7 @@ public class BattleShip extends Application {
     private GridPane pnlPlayer = new GridPane();
     private Label[][] lblPlayer = new Label[GRIDSIZE][GRIDSIZE];
     private Image[] imgShips = new Image[10];
-    private ShipInfo[] shipInfo = new ShipInfo[8];
+    private Ship[] shipInfo = new Ship[8];
     private char[][] ocean = new char[16][16];    
     
     
@@ -82,25 +82,25 @@ public class BattleShip extends Application {
     {
         //Start with the minesweeper, we create 2 of them here but will place 3 total randomly it as two images
 		int[] mineSweepH = {0,4};
-		shipInfo[0] = new ShipInfo("Minesweep", mineSweepH, 'H');
-		int[] mineSweepV = {5,9};
-		shipInfo[1] = new ShipInfo("Minesweep", mineSweepV, 'V');
+		shipInfo[0] = new MineSweeper(mineSweepH, 'H');
+		int[] mineSweepV = {5,8};
+		shipInfo[1] = new MineSweeper(mineSweepV, 'V');
 		
         // Create the frigate it has 3 pieces
 		int[] frigateH = {0,1,4};
-		shipInfo[2] = new ShipInfo("Frigate", frigateH, 'H');
+		shipInfo[2] = new Frigate(frigateH, 'H');
 		int[] frigateV = {5,6,9};
-		shipInfo[3] = new ShipInfo("Frigate", frigateV, 'V');
-		
+		shipInfo[3] = new Frigate(frigateV, 'V');
+	//Cruisers 4	
 		int[] cruiserH = {0,1,2,4};
-		shipInfo[4] = new ShipInfo("Cruiser", cruiserH, 'H');
+		shipInfo[4] = new Cruiser(cruiserH, 'H');
 		int[] cruiserV = {5,6,7,9};
-		shipInfo[5] = new ShipInfo("Cruiser", cruiserV, 'V');
-		
+		shipInfo[5] = new Cruiser(cruiserV, 'V');
+        //BattleShips 5
 		int[] battleShipH = {0,1,2,3,4};
-		shipInfo[6] = new ShipInfo("Battleship", battleShipH, 'H');
+		shipInfo[6] = new BShip(battleShipH, 'H');
 		int[] battleShipV = {5,6,7,8,9};
-		shipInfo[7] = new ShipInfo("Battleship", battleShipV, 'V'); 
+		shipInfo[7] = new BShip(battleShipV, 'V'); 
     }
     private void initOcean()
     {
@@ -125,7 +125,7 @@ public class BattleShip extends Application {
         for(int ships = 0; ships < MAXSHIPS; ships++)
         {
                 //Get a random ship
-                ShipInfo si = shipInfo[r.nextInt(8)];
+                Ship si = shipInfo[r.nextInt(8)];
 
                 int row = randRow.nextInt(16);
                 int col = randCol.nextInt(16);
@@ -138,7 +138,7 @@ public class BattleShip extends Application {
                 }
                 // got a clear path, let put the ship on the ocean
                 int shipPieces[] = si.getShipPieces();
-                if(si.Direction == 'H')  // place horizontal
+                if(si.getDirection() == 'H')  // place horizontal
                 {
                         if(direction == 1)
                         {
@@ -182,14 +182,14 @@ public class BattleShip extends Application {
                 }			
         } 
     }
-    private int checkDirection(ShipInfo si, int row, int col)
+    private int checkDirection(Ship si, int row, int col)
     {
-        if(si.Direction == 'H')
+        if(si.getDirection() == 'H')
             return checkHorizontal(si, row, col);
         else
             return checkVertical(si, row, col);
     }
-    int checkHorizontal(ShipInfo si,int row, int col)
+    int checkHorizontal(Ship si,int row, int col)
     {
             boolean clearPath = true;
 
@@ -233,7 +233,7 @@ public class BattleShip extends Application {
 
     }
 	
-    int checkVertical(ShipInfo si,int row, int col)
+    int checkVertical(Ship si,int row, int col)
     {
             boolean clearPath = true;
             int len = si.length();
