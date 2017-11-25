@@ -56,7 +56,7 @@ public class BattleShip extends Application {
            for(int col = 0; col < GRIDSIZE; col++)
            {
                lblPlayer[row][col] = new Label();               
-               Image imgShip = new Image("file:Images\\batt100.gif");
+               Image imgShip = new Image("file:Images\\batt100.gif"); //loads all lbls with ocean
                lblPlayer[row][col].setGraphic(new ImageView(imgShip));
                lblPlayer[row][col].setMaxSize(16.0, 16.0);
                lblPlayer[row][col].setStyle("-fx-border-width:1;-fx-border-color:black;");
@@ -68,41 +68,34 @@ public class BattleShip extends Application {
     }
     private void createShips()
     {
-        this.loadShipImages();
         this.createShipInfo();
     }
-    private void loadShipImages()
-    {
-        for(int i = 0; i < 10 ; i++)
-        {
-            imgShips[i] = new Image("file:Images\\batt" + (i + 1) + ".gif");
-        }
-    }
+   
     private void createShipInfo()
     {
         //Start with the minesweeper, we create 2 of them here but will place 3 total randomly it as two images
-		int[] mineSweepH = {0,4};
-		shipInfo[0] = new MineSweeper(mineSweepH, 'H');
-		int[] mineSweepV = {5,8};
-		shipInfo[1] = new MineSweeper(mineSweepV, 'V');
+		//int[] mineSweepH = {0,4};
+		shipInfo[0] = new MineSweeper('H');
+		//int[] mineSweepV = {5,9};
+		shipInfo[1] = new MineSweeper('V');
 		
         // Create the frigate it has 3 pieces
-		int[] frigateH = {0,1,4};
-		shipInfo[2] = new Frigate(frigateH, 'H');
-		int[] frigateV = {5,6,9};
-		shipInfo[3] = new Frigate(frigateV, 'V');
+		//int[] frigateH = {0,1,4};
+		shipInfo[2] = new Frigate( 'H');
+		//int[] frigateV = {5,6,9};
+		shipInfo[3] = new Frigate( 'V');
 	//Cruisers 4	
-		int[] cruiserH = {0,1,2,4};
-		shipInfo[4] = new Cruiser(cruiserH, 'H');
-		int[] cruiserV = {5,6,7,9};
-		shipInfo[5] = new Cruiser(cruiserV, 'V');
+		//int[] cruiserH = {0,1,2,4};
+		shipInfo[4] = new Cruiser( 'H');
+		//int[] cruiserV = {5,6,7,9};
+		shipInfo[5] = new Cruiser( 'V');
         //BattleShips 5
-		int[] battleShipH = {0,1,2,3,4};
-		shipInfo[6] = new BShip(battleShipH, 'H');
-		int[] battleShipV = {5,6,7,8,9};
-		shipInfo[7] = new BShip(battleShipV, 'V'); 
+		//int[] battleShipH = {0,1,2,3,4};
+		shipInfo[6] = new BShip('H');
+		//int[] battleShipV = {5,6,7,8,9};
+		shipInfo[7] = new BShip( 'V'); 
     }
-    private void initOcean()
+    private void initOcean() //initializes char array as all "O"s for ocean
     {
         for(int row = 0; row < 16; row++)
         {
@@ -114,6 +107,7 @@ public class BattleShip extends Application {
     }
     private void placeShips()
     {
+        
        // Create a Random object to select ships
         Random r = new Random();
 
@@ -124,37 +118,39 @@ public class BattleShip extends Application {
         //Place the ships, typically there are 14
         for(int ships = 0; ships < MAXSHIPS; ships++)
         {
-                //Get a random ship
-                Ship si = shipInfo[r.nextInt(8)];
+                createShips();
+                 //Get a random ship
+                Ship ship = shipInfo[r.nextInt(8)];
 
                 int row = randRow.nextInt(16);
                 int col = randCol.nextInt(16);
-                int direction = checkDirection(si, row, col);
+                int direction = checkDirection(ship, row, col);
                 while(direction == 0) // 0 direction says that we can not place the ship
                 {
                         row = randRow.nextInt(16);
                         col = randCol.nextInt(16);
-                        direction = checkDirection(si, row, col);
+                        direction = checkDirection(ship, row, col);
                 }
                 // got a clear path, let put the ship on the ocean
-                int shipPieces[] = si.getShipPieces();
-                if(si.getDirection() == 'H')  // place horizontal
+                int shipPieces[] = ship.getShipPieces();
+                if(ship.getDirection() == 'H')  // place horizontal
                 {
                         if(direction == 1)
                         {
-                            for(int i = col, j = 0; i < col + si.length(); i++, j++)
-                            {                                                          
-                                lblPlayer[row][i].setGraphic(new ImageView(imgShips[shipPieces[j]]));
-                                String name = si.getName();
-                                ocean[row][i] = name.charAt(0);
+                            for(int i = col, j = 0; i < col + ship.length(); i++, j++)
+                            {         
+                                
+                                lblPlayer[row][i].setGraphic(ship.getLabels(j)); //sets the panel graphic to a ship
+                                String name = ship.getName();
+                                ocean[row][i] = name.charAt(0); //updates the char array
                             }
                         }
                         else
                         {
-                            for(int i = col + si.length(), j = 0 ; i > col; i--, j++)
+                            for(int i = col + ship.length(), j = 0 ; i > col; i--, j++)
                             {
-                                lblPlayer[row][i].setGraphic(new ImageView(imgShips[shipPieces[j]]));	
-                                String name = si.getName();
+                                lblPlayer[row][i].setGraphic(ship.getLabels(j));	
+                                String name = ship.getName();
                                 ocean[row][i] = name.charAt(0);
                             }
                         }
@@ -163,19 +159,19 @@ public class BattleShip extends Application {
                 {
                         if(direction == 1) // place pieces in positive direction
                         {
-                            for(int i = row, j = 0; i < row + si.length(); i++, j++)
+                            for(int i = row, j = 0; i < row + ship.length(); i++, j++)
                             {
-                                lblPlayer[i][col].setGraphic(new ImageView(imgShips[shipPieces[j]]));	
-                                String name = si.getName();
+                                lblPlayer[i][col].setGraphic((ship.getLabels(j)));	
+                                String name = ship.getName();
                                 ocean[i][col] = name.charAt(0);
                             }
                         }
                         else
                         {
-                                for(int i = row + si.length(), j = 0; i > row; i--, j++)
+                                for(int i = row + ship.length(), j = 0; i > row; i--, j++)
                                 {
-                                    lblPlayer[i][col].setGraphic(new ImageView(imgShips[shipPieces[j]]));	
-                                    String name = si.getName();
+                                    lblPlayer[i][col].setGraphic(ship.getLabels(j));	
+                                    String name = ship.getName();
                                     ocean[i][col] = name.charAt(0);
                                 }
                         }

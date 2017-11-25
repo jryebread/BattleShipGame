@@ -5,15 +5,33 @@
  */
 package battleship;
 
+import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
+
 /**
  *
  * @author James
  */
 public class Cruiser extends Ship{
     
-    public Cruiser(int[] pieces, char Direction) {
-        super("Cruiser", pieces, Direction);
-       
+
+     
+    public Cruiser(char Direction) 
+    {
+        super("Cruiser", Direction);
+    
+        if(this.Direction == 'H')
+        {
+            int [] horizontalPieces= {0,1,2,4};
+            this.setPieces(horizontalPieces);
+        }
+        else //vertical
+        {
+            int [] verticalPieces = {5,6,7,9};
+            this.setPieces(verticalPieces);
+        }
+         setShipLabel();
     }
+    
     
 }
