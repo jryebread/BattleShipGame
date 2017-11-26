@@ -16,6 +16,7 @@ import javafx.scene.image.*;
 import java.awt.Color;
 import javafx.geometry.Insets;
 import java.util.Random;
+import javafx.scene.input.MouseEvent;
 
 /**
  *
@@ -27,10 +28,10 @@ public class BattleShip extends Application {
     private static final int GRIDSIZE  = 16;
     private GridPane pnlPlayer = new GridPane();
     private Label[][] lblPlayer = new Label[GRIDSIZE][GRIDSIZE];
-    private Image[] imgShips = new Image[10];
+   
     private Ship[] shipInfo = new Ship[8];
     private char[][] ocean = new char[16][16];    
-    
+    private int misses, hits;
     
     @Override
     public void start(Stage primaryStage) {
@@ -47,7 +48,46 @@ public class BattleShip extends Application {
         createShips();
         root.setCenter(pnlPlayer);
         placeShips();
+        //createSolution(lblPlayer, ocean, shipInfo);
+        checkPlayerClick();
     }
+    private boolean checkPlayerClick() 
+    {
+        for(int i = 0; i < GRIDSIZE; ++i)
+        {
+            for(int j = 0; j < GRIDSIZE; ++j)
+            {
+                final int i2 = i;
+                final int j2 = j;
+                lblPlayer[i][j].setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                    
+                        if(ocean[i2][j2] == 'O')
+                        {
+                            System.out.println("Miss!");
+                            Target miss = new Target();
+                            lblPlayer[i2][j2].setGraphic(miss.returnMiss());
+                            
+                        }
+                        else if(ocean[i2][j2] == 'M' || ocean[i2][j2] == 'F' ||ocean[i2][j2] ==  'C' ||ocean[i2][j2] ==  'B')
+                        {
+                          System.out.println("Hit!");
+                          Target hit = new Target();
+                          lblPlayer[i2][j2].setGraphic(hit.returnHit());
+                          
+                        }
+                        //if something is hit
+                        //get the ship pieces
+                        //set them all to red
+                            
+                    }
+                });
+            }
+        }
+        return true;
+    }
+  
     private void createPlayerPanel()
     {
        pnlPlayer.setStyle("-fx-background-color:#0000FF;");
@@ -131,8 +171,7 @@ public class BattleShip extends Application {
                         col = randCol.nextInt(16);
                         direction = checkDirection(ship, row, col);
                 }
-                // got a clear path, let put the ship on the ocean
-                int shipPieces[] = ship.getShipPieces();
+               
                 if(ship.getDirection() == 'H')  // place horizontal
                 {
                         if(direction == 1)

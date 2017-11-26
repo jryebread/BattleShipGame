@@ -20,6 +20,7 @@ public class Ship
 	protected int[] shipPieces; 
 	protected char Direction;
         protected Image[] imgShips = new Image[10]; //our image array holding all ship images, we will access it in our derived classes
+        protected Image[] imgSunkShips = new Image[10]; //our image array holding all ship images, we will access it in our derived classes
 	protected ArrayList<Label> imgLabel = new ArrayList<Label>();	
 	Ship(String name, char Direction)
 	{
@@ -57,7 +58,13 @@ public class Ship
                 imgShips[i] = new Image("file:Images\\batt" + (i + 1) + ".gif");
             }
         }
-        
+        private void loadSunkImages()
+        {
+            for(int i = 0; i < 10 ; i++)
+            {
+                imgSunkShips[i] = new Image("file:Images\\batt20" + (i + 1) + ".gif");
+            }
+        }
         public Label getLabels(int index)
         {
             return imgLabel.get(index);
@@ -72,5 +79,20 @@ public class Ship
                 this.imgLabel.add(shipLbl);
            }
         }
+        public void setSunkShipLabel() //set the sunk ship label array so we can later return them piece by piece
+        {
+           int [] pieces = this.getShipPieces();
+           for(int x = 0; x < pieces.length; ++x)
+           {
+                Label shipLbl = new Label();
+                shipLbl.setGraphic(new ImageView(this.imgShips[pieces[x]]));
+                this.imgLabel.add(shipLbl);
+           }
+        }
+        public void setShipSunk()
+        {
+            
+        }
+                
         
 }

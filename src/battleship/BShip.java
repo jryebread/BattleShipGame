@@ -32,16 +32,6 @@ public class BShip extends Ship {
         }
          setShipLabel();
     }
-    public void setShipLabel() //set the ship label array so we can later return them piece by piece
-    {
-        int [] pieces = this.getShipPieces();
-        
-        for(int x = 0; x < pieces.length; ++x)
-        {
-           Label shipLbl = new Label();
-           shipLbl.setGraphic(new ImageView(this.imgShips[pieces[x]]));
-           this.imgLabel.add(shipLbl);
-        }
-    }
+  
     
 }
