@@ -21,7 +21,7 @@ public class Solution
     private Label[][] lblSunk = new Label[GRIDSIZE][GRIDSIZE]; //label array that holds sunk ship labels
     private void loadImages()
     {
-          for(int i = 0; i < 10 ; i++)
+          for(int i = 0; i < 6 ; i++)
           {
                 imgSunkShips[i] = new Image("file:Images\\batt20" + (i + 1) + ".gif");
           }

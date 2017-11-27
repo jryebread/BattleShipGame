@@ -28,10 +28,11 @@ public class BattleShip extends Application {
     private static final int GRIDSIZE  = 16;
     private GridPane pnlPlayer = new GridPane();
     private Label[][] lblPlayer = new Label[GRIDSIZE][GRIDSIZE];
-   
+    private Label[][] lblShips = new Label[GRIDSIZE][GRIDSIZE];
     private Ship[] shipInfo = new Ship[8];
     private char[][] ocean = new char[16][16];    
-    private int misses, hits;
+    private int misses = 0;
+    private int hits = 0;
     
     @Override
     public void start(Stage primaryStage) {
@@ -48,8 +49,28 @@ public class BattleShip extends Application {
         createShips();
         root.setCenter(pnlPlayer);
         placeShips();
+        lblShips = lblPlayer;
+        //hideShips();
         //createSolution(lblPlayer, ocean, shipInfo);
         checkPlayerClick();
+        Button btnShow = new Button("Show Ships");
+      
+        root.setBottom(btnShow);
+      
+        btnShow.setOnAction(new EventHandler<ActionEvent>() { //reset button event
+            @Override
+            public void handle(ActionEvent event) {
+           for(int row = 0; row < GRIDSIZE; row++)
+           {
+               for(int col = 0; col < GRIDSIZE; col++)
+               {
+                  
+                   Ship newShip = shipInfo[0];  
+          
+                }
+        }
+            }
+        });
     }
     private boolean checkPlayerClick() 
     {
@@ -67,25 +88,44 @@ public class BattleShip extends Application {
                         {
                             System.out.println("Miss!");
                             Target miss = new Target();
+                            misses++;
                             lblPlayer[i2][j2].setGraphic(miss.returnMiss());
                             
                         }
                         else if(ocean[i2][j2] == 'M' || ocean[i2][j2] == 'F' ||ocean[i2][j2] ==  'C' ||ocean[i2][j2] ==  'B')
                         {
                           System.out.println("Hit!");
+                          hits++;
                           Target hit = new Target();
                           lblPlayer[i2][j2].setGraphic(hit.returnHit());
                           
                         }
+                        //todo
                         //if something is hit
-                        //get the ship pieces
+                        Ship si = new Ship(null, 'H');//get the ship pieces 
                         //set them all to red
-                            
+                          
                     }
                 });
             }
         }
         return true;
+    }
+    private void hideShips()
+    {
+       for(int row = 0; row < GRIDSIZE; row++)
+       {
+           for(int col = 0; col < GRIDSIZE; col++)
+           {
+               lblPlayer[row][col] = new Label();               
+               Image imgShip = new Image("file:Images\\batt100.gif"); //loads all lbls with ocean
+               lblPlayer[row][col].setGraphic(new ImageView(imgShip));
+               lblPlayer[row][col].setMaxSize(16.0, 16.0);
+               lblPlayer[row][col].setStyle("-fx-border-width:1;-fx-border-color:black;");
+               pnlPlayer.add(lblPlayer[row][col], col, row);      
+           
+           }
+       }
     }
   
     private void createPlayerPanel()

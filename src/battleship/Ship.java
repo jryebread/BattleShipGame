@@ -60,7 +60,7 @@ public class Ship
         }
         private void loadSunkImages()
         {
-            for(int i = 0; i < 10 ; i++)
+            for(int i = 0; i < 6 ; i++)
             {
                 imgSunkShips[i] = new Image("file:Images\\batt20" + (i + 1) + ".gif");
             }
@@ -79,20 +79,21 @@ public class Ship
                 this.imgLabel.add(shipLbl);
            }
         }
-        public void setSunkShipLabel() //set the sunk ship label array so we can later return them piece by piece
-        {
-           int [] pieces = this.getShipPieces();
-           for(int x = 0; x < pieces.length; ++x)
-           {
-                Label shipLbl = new Label();
-                shipLbl.setGraphic(new ImageView(this.imgShips[pieces[x]]));
-                this.imgLabel.add(shipLbl);
-           }
-        }
-        public void setShipSunk()
-        {
-            
-        }
+        
+//        public void setSunkShipLabel() //set the sunk ship label array so we can later return them piece by piece
+//        {
+//           int [] pieces = this.getShipPieces();
+//           for(int x = 0; x < pieces.length; ++x)
+//           {
+//                Label shipLbl = new Label();
+//                shipLbl.setGraphic(new ImageView(this.imgShips[pieces[x]]));
+//                this.imgLabel.add(shipLbl);
+//           }
+//        }
+//        public void setShipSunk()
+//        {
+//            
+//        }
                 
         
 }
