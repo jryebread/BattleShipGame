@@ -33,7 +33,7 @@ public class Solution
 //        {
 //            for(int j = 0; j < GRIDSIZE; ++j)
 //            {
-//                if(ocean[i][j] == 'M' || ocean[i][j] == 'F' ||ocean[i][j] ==  'C' ||ocean[i][j] ==  'B')
+//                if(ocean[i][j] == 'M' || ocean[i][j] == 'F' ||ocean[i][j] ==  'C' || ocean[i][j] ==  'B')
 //                {
 //                    Label sunkShip = new Label();
 //                    sunkShip.getID();
